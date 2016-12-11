@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: WP Taxonomy Import
-Version: 1.0.3
-Author: Nakashima Masahiro
-Author URI: http://www.kigurumi.asia
-Plugin URI: http://www.kigurumi.asia/tech/716/
-Description: This is a plug-in allowing the user to create large amount of taxonomies. This plugin based on "Batch categories import" https://wordpress.org/plugins/batch-category-import/.
+Plugin Name: WP Taxonomy Import ( Plus Term Meta )
+Version: 1.0.0
+Author: mt8
+Author URI: https://mt8.biz
+Original Author: Nakashima Masahiro
+Original Author URI: http://www.kigurumi.asia
+Original Plugin URI: http://www.kigurumi.asia/tech/716/
+Description: This is fork plugin of [WP Taxonomy Import]
 Text Domain: wti
 Domain Path: /languages/
 */
@@ -136,7 +138,7 @@ if ( !class_exists( "WPTaxonomyImport" ) ) {
 $custom_taxonomies = get_taxonomies( array(), "objects" );
 foreach ( $custom_taxonomies as $key => $taxonomy ) :
 ?>
-<<option value="<?php echo $taxonomy->name ?>"><?php echo $taxonomy->name ?></option>
+<option value="<?php echo $taxonomy->name ?>"><?php echo $taxonomy->name ?></option>
 <?php endforeach; ?>
 </select><br>
 			<textarea id="bulkCategoryList" name="bulkCategoryList" rows="20" style="width: 100%;"><?php echo isset( $_POST['bulkCategoryList'] ) ? $_POST['bulkCategoryList'] : ''; ?></textarea>

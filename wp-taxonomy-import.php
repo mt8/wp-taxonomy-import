@@ -42,11 +42,18 @@ if ( !class_exists( "WPTaxonomyImport" ) ) {
 				if ( strlen( trim( $category ) ) == 0 )
 					break;
 
+				$category_meta = array();
 				if ( strpos( $category, $delimiter ) !== false ) {
 					$category = explode( $delimiter, $category );
 					$category_name = $category[0];
 					$category_slug = $category[1];
 					$category_description = ( isset( $category[2] ) ? substr( $category[2], 1, -1 ) : '' );
+					if ( 4 < count( $category ) ) {
+						for ( $i=4-1; $i<count($category); $i++ ) {
+							$metas = explode( ':::', $category[$i] );
+							$category_meta[ $metas[0] ] = $metas[1];
+						}
+					}
 				}
 				else {
 					$category_name = $category;
@@ -73,6 +80,12 @@ if ( !class_exists( "WPTaxonomyImport" ) ) {
 
 						if ( is_wp_error( $result ) ) {
 							return die( "$catname produced this -> ".$result->get_error_message() );
+						} else {
+							if ( ! empty( $category_meta ) ) {
+								foreach ( $category_meta as $meta_key => $meta_value ) {
+									update_term_meta( $result['term_id'], $meta_key, $meta_value );
+								}
+							}
 						}
 						$created_categories[] = $category_name;
 					}
@@ -138,7 +151,7 @@ if ( !class_exists( "WPTaxonomyImport" ) ) {
 $custom_taxonomies = get_taxonomies( array(), "objects" );
 foreach ( $custom_taxonomies as $key => $taxonomy ) :
 ?>
-<option value="<?php echo $taxonomy->name ?>"><?php echo $taxonomy->name ?></option>
+<<option value="<?php echo $taxonomy->name ?>"><?php echo $taxonomy->name ?></option>
 <?php endforeach; ?>
 </select><br>
 			<textarea id="bulkCategoryList" name="bulkCategoryList" rows="20" style="width: 100%;"><?php echo isset( $_POST['bulkCategoryList'] ) ? $_POST['bulkCategoryList'] : ''; ?></textarea>

@@ -51,7 +51,7 @@ if ( !class_exists( "WPTaxonomyImport" ) ) {
 					if ( 4 < count( $category ) ) {
 						for ( $i=4-1; $i<count($category); $i++ ) {
 							$metas = explode( ':::', $category[$i] );
-							$category_meta[ $metas[0] ] = $metas[1];
+							$category_meta[ $metas[0] ] = str_replace( array( "\n", "\r" ) , "", $metas[1] );
 						}
 					}
 				}
